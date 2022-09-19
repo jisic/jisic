@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Jua&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+          * {
+                font-family: 'Gaegu', cursive;
+                font-family: 'Jua', sans-serif;
+          }
+          .mytitle {
+                background-color: #1b2838;
+                width: 260px;
+                height: 200px;
+                color: #c7d5e0;
+                text-align: center;
+                border-radius: 10px;
+
+                padding-top: 40px;
+          }
+          .wrap{
+                width: 300px;
+                margin: auto;
+          }
+          .button {
+              background-color: #1b2838;
+              border: #1b2838;
+              color: white;
+              width: 258px;
+              padding: 15px 32px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+              margin: 4px 2px;
+              cursor: pointer;
+          }
+          input{
+              width: 250px;
+              height: 20px;
+              font-size: 20px;
+          }
+          div.question-box {
+            margin: 10px 0 20px 0;
+          }
+    </style>
+    <script>
+        $(document).ready(function () {
+            show_order();
+        });
+
+        function show_order() {
+            $.ajax({
+                type: 'GET',
+                url: '/mars',
+                data: {},
+                success: function (response) {
+                    alert(response['msg'])
+                }
+            });
+        }
+        function signUpCheck() {
+            let name = $('#name').val()
+            let id = $('#id').val()
+            let password = $('#password').val()
+            let passwordcheck = $('#passwordcheck').val()
+            let phone = $('#phone').val()
+            let email = $('#email').val()
+
+            if (name == '') {
+                alert('이름이 올바르지 않습니다!')
+            }
+            else if (id == '') {
+                alert('아이디가 올바르지 않습니다!')
+            }
+            else if (password != passwordcheck) {
+                alert('비밀번호가 일치하지 않습니다!')
+            }
+            else if (phone == '') {
+                alert('전화번호가 올바르지 않습니다!')
+            }
+            else if (email.includes('@') == false) {
+                alert('이메일이 아닙니다.')
+            }
+            else{
+                $.ajax({
+                type: 'POST',
+                url: '/toyproject',
+                data: {name_give: name, id_give: id,password_give: password,phone_give: phone,email_give: email},
+                success: function (response) {
+                    alert(response['msg'])
+                    location.href='http://leejh1006.shop/'
+                }
+            });
+            }
+
+        }
+    </script>
+
+</head>
+<body>
+    <div class="wrap">
+          <div class="mytitle">
+            <h1>회원가입</h1>
+          </div>
+          <div class="question-box">
+          <p>이름</p>
+              <p><input id="name" type="text"></p>
+          <p>아이디</p>
+              <p><input id="id" type="text"></p>
+          <p>비밀번호</p>
+              <p><input id="password" type="password"></p>
+          <p>비밀번호 확인</p>
+              <p><input id="passwordcheck" type="password"></p>
+          <p>전화번호</p>
+              <p><input id="phone" type="text"></p>
+          <p>이메일</p>
+              <p><input id="email" type="text"></p>
+          <button class="button", button onclick="signUpCheck()">가입하기</button>
+          </div>
+    </div>
+</body>
+</html>
